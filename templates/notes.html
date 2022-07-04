@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- title tags !-->
+    <meta property="og:title" content="MyNotePad" />
+    <meta property="og:site_name" content="MyNotePad">
+    <meta name="author" content="MyNotePad">
+    <meta name="twitter:title" content="MyNotePad">
+    
+    <!-- description tags !-->
+    <meta property="og:description" content="Create, send, and share notes, in a fast, secure, and free way!" />
+    
+    <meta name="twitter:description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    <meta name="description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    
+    <!-- image tags !-->
+    <meta property="og:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png" />
+    <meta name="twitter:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png">
+    <link href="https://MyNotePad.ksiscute.repl.co/static/images/logo.png" rel="icon" type="image/x-icon">
+    
+    <!-- other !-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/arr.css">
+    
+    <!-- other tags !-->
+    <meta property="og:url" content="https://MyNotePad.ksiscute.repl.co" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#333333">
+    <meta name="twitter:card" content="summary">
+    
+    <title>View Notes</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/view">View</a>
+      <a href="/write">Create</a>
+      <a href="/stats">Stats</a>
+      <div class="dropdown">
+        <button class="dropbtn">Accounts 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          <a href="/settings">Settings</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Security 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/tos">TOS</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+      </div> 
+    </nav>
+    <br>
+    <h1 style="text-align:center">NOTE: Blacked out / censored titles contain NSFW content</h1>
+    <div style="text-align:center">
+      <h2>Search by title or user</h2>
+      <input type="text" id="sbar" onkeyup="search()" placeholder="Search for notes..." title="Type in a name">
+    </div>
+    <ol id=ul style="width:25%;margin: 0 auto;">
+      {% for note in db %}
+        {% if note['announcement'] %}
+          <li><a href="/view?id={{ note['_id'] }}" style="color:white;text-decoration:none;"><strong>OFFICIAL ANNOUNCEMENT</strong> - {{ note['title'] }} <small style=font-size:10px>{{ note['views'] }}</small></a></li>
+        {% endif %}
+        {% if not note['announcement'] %}
+          {% if note['banned'] != "true" %}
+            {% if note['nsfw'] != "true" %}
+              {% if note['username'] %}
+                <li><a href="/view?id={{ note['_id'] }}" style="color:white;text-decoration:none;">{{ note['title'] }} | {{ note['username'] }}  <small style=font-size:10px> {{ note['views'] }} </small></a></li>
+              {% else %}
+                <li><a href="/view?id={{ note['_id'] }}" style="color:white;text-decoration:none;">{{ note['title'] }} <small style=font-size:10px> {{ note['views'] }} </small></a></li>
+              {% endif %}
+            {% else %}
+              <li><a href="/view?id={{ note['_id'] }}" class="censor">{{ note['title'] }} <small style=font-size:10px> {{ note['views'] }} </small></a></li>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ol>
+    <hr>
+    <footer>
+      
+      <p style="text-align:center;display:inline;">© Copyright Cesiyi / Css | <p id="y" style=display:inline;>2022</p></p>
+      <p style="text-align:center">Powered by MongoDB</p>
+    </footer>
+  </body>
+  <script>
+    var date=new Date;document.getElementById("y").innerText=date.getFullYear()
+    function search() {
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById("sbar");
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("ul");
+      li = ul.getElementsByTagName("li");
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</html>

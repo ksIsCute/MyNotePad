@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- title tags !-->
+    <meta property="og:title" content="MyNotePad" />
+    <meta property="og:site_name" content="MyNotePad">
+    <meta name="author" content="MyNotePad">
+    <meta name="twitter:title" content="MyNotePad">
+    
+    <!-- description tags !-->
+    <meta property="og:description" content="Create, send, and share notes, in a fast, secure, and free way!" />
+    
+    <meta name="twitter:description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    <meta name="description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    
+    <!-- image tags !-->
+    <meta property="og:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png" />
+    <meta name="twitter:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png">
+    <link href="https://MyNotePad.ksiscute.repl.co/static/images/logo.png" rel="icon" type="image/x-icon">
+    
+    <!-- other !-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/arr.css">
+    
+    <!-- other tags !-->
+    <meta property="og:url" content="https://MyNotePad.ksiscute.repl.co" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#333333">
+    <meta name="twitter:card" content="summary">
+    
+    <title>View Note</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/view">View</a>
+      <a href="/write">Create</a>
+      <a href="/stats">Stats</a>
+      <div class="dropdown">
+        <button class="dropbtn">Accounts 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          <a href="/settings">Settings</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Security 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/tos">TOS</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </nav>
+    <div class=sfwwarn id=nsfw>
+      <h1 style=text-align:center>WARNING</h1>
+      <p>This note has been flagged as <strong>NSFW</strong>, and can contain sensitive information like profanity, slurs, racism, sexism, or more. Are you sure you want to view this note?</p>
+      <div class=btnwrap>
+        <button onclick="aontinue()">Continue</button>
+        <button onclick="bad()">Go Back</button>
+      </div>
+    </div>
+    <h2 style=text-align:center;>Note #{{ id }}</h2>
+    <div id=note class="notewrap">
+      {% if note['anonymous'] %}
+        <p>Created by an anonymous user</p>
+      {% endif %}
+      {% if note['username'] %}
+        {% if note['verified'] %}
+          <p>Created by <img src="/static/images/verified.png" width=25px height=25px style="display:inline;justify-content:center;margin-bottom:-8px;margin-right:2px;"><strong><a href="/profile?username={{ note['username'] }}" style="color:white;">{{ note['username'] }}</a></strong></p>
+        {% elif note['username'] == "css" %}
+          <p>Created by <img src="/static/images/dev.png" width=25px height=25px style="display:inline;justify-content:center;margin-bottom:-8px;margin-right:2px;"><strong><a href="/profile?username={{ note['username'] }}" style="color:white;">{{ note['username'] }}</a></strong></p>
+        {% else %}
+          <p>Created by <strong><a href="/profile?username={{ note['username'] }}" style="color:white;">{{ note['username'] }}</a></strong></p>
+        {% endif %}
+      {% endif %}
+      <div class=notetitle>
+        <h1>{{ title }}</h1>
+      </div>
+      <hr>
+      <div class=notebody>
+        <p class="notetext">{{ body }}</p>
+      </div>
+    </div>
+    <hr>
+    <footer>
+      
+      <p style="text-align:center;display:inline;">© Copyright Cesiyi / Css | <p id="y" style=display:inline;>2022</p></p>
+      <p style="text-align:center">Powered by MongoDB</p>
+      <p>You are viewer #{{ var }}</p>
+    </footer>
+  </body>
+  <script>
+    var date=new Date;document.getElementById("y").innerText=date.getFullYear()
+  </script>
+  <script>
+    function bad() {
+      window.location.href = 'https://MyNotePad.ksiscute.repl.co/'
+    }
+    function aontinue() {
+      document.getElementById('nsfw').classList.toggle("warn")
+      document.getElementById('note').classList.toggle("blur")
+      setTimeout(() => {document.getElementById('nsfw').remove()}, 500)
+    }
+    if ("{{ nsfw }}" == "true") {
+      document.getElementById("nsfw").classList.toggle("warn")
+      document.getElementById("note").classList.toggle("blur")
+    } else {
+      document.getElementById("nsfw").remove()
+    }
+  </script>
+</html>

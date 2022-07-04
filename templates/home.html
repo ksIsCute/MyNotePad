@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- title tags !-->
+    <meta property="og:title" content="MyNotePad" />
+    <meta property="og:site_name" content="MyNotePad">
+    <meta name="author" content="MyNotePad">
+    <meta name="twitter:title" content="MyNotePad">
+    
+    <!-- description tags !-->
+    <meta property="og:description" content="Create, send, and share notes, in a fast, secure, and free way!" />
+    
+    <meta name="twitter:description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    <meta name="description" content="Create, send, and share notes, in a fast, secure, and free way!">
+    
+    <!-- image tags !-->
+    <meta property="og:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png" />
+    <meta name="twitter:image" content="https://MyNotePad.ksiscute.repl.co/static/images/banner.png">
+    <link href="https://MyNotePad.ksiscute.repl.co/static/images/logo.png" rel="icon" type="image/x-icon">
+    
+    <!-- other !-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/arr.css">
+    
+    <!-- other tags !-->
+    <meta property="og:url" content="https://MyNotePad.ksiscute.repl.co" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#333333">
+    <meta name="twitter:card" content="summary">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <title>Home</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/view">View</a>
+      <a href="/write">Create</a>
+      <a href="/stats">Stats</a>
+      <div class="dropdown">
+        <button class="dropbtn">Accounts 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          <a href="/settings">Settings</a>
+        </div>
+      </div> 
+      <div class="dropdown">
+        <button class="dropbtn">Security 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/tos">TOS</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Notifications 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+        	<p id=notifs></p>
+        </div>
+      </div>
+    </nav>
+    <div style=text-align:center;>
+      <h1>Welcome!</h1>
+      <div class=buttonwrap>
+        <div class=thing>
+          <h1>Fast</h1>
+          <hr>
+          <p>Create notes easily and free with plug-and-play creation.</p>
+        </div>
+        <div class=thing>
+          <h1>Reliable</h1>
+          <hr>
+          <p>MyNotePad is certified to be there when you need a note, now with a 99% uptime rate!</p>
+        </div>
+        <div class=thing>
+          <h1>Open</h1>
+          <hr>
+          <p>MyNotePad is open source (soon to be after finishing some routes) and open minded, see some bugs or any changes you want to contribute? Create a pull request <a href="" target=_blank>here</a></p>
+        </div>
+      </div>
+      <button onclick="window.location.href = 'https://mynotepad.ksiscute.repl.co/create'">Create a note!</button>
+    </div>
+    <hr>
+    <footer>
+      <p style="text-align:center;display:inline;">© Copyright Cesiyi / Css | <p id="y" style=display:inline;>2022</p></p>
+      <p style="text-align:center">Powered by MongoDB</p>
+    </footer>
+  </body>
+  <script>
+    var date=new Date;document.getElementById("y").innerText=date.getFullYear()
+    var seconds = 1
+    var as = 0
+    var intervalId = window.setInterval(function() {
+      as -= 1
+      var as = 0
+      seconds += 1
+      console.log(`its been ${seconds} seconds`)
+      if({{ cookies }} == true) {
+        $.getJSON("https://MyNotePad.ksiscute.repl.co/getuser?username={{ name }}", function(data) {
+            console.log(data)
+          
+            for (var i = 0; i < data.notifications.length; i++) {
+              if (document.getElementById("notifs").innerText.includes(data.notifications[i])) {
+                as += 1
+              } else {
+                document.getElementById("notifs").appendChild(document.createTextNode(data.notifications[i]))
+                document.getElementById("notifs").appendChild(document.createElement("br")
+              }
+            }
+          }
+        )
+      }
+    }, 1000);
+
+  </script>
+</html>
